@@ -1,5 +1,6 @@
 package com.cts;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -20,18 +21,39 @@ public class Main {
 		
 		transaction.begin();
 		
-		Query query=em.createQuery("select e from Employee e where e.name=:name");
-		query.setParameter("name", "mno");
+		Student st1=new Student();
+		st1.setName("abc");
+		
+		Student st2=new Student();
+		
+		st2.setName("def");
+		
+		
+		Subject sub1=new Subject();
+		sub1.setName("java");
+		
+		Subject sub2=new Subject();
+		sub2.setName("MySql");
+		
+		
+		st1.setSubList(Arrays.asList(sub1,sub2));
+		
+		st2.setSubList(Arrays.asList(sub2));
+		
+		
+		sub1.setStudentList(Arrays.asList(st1));
+		
+		sub2.setStudentList(Arrays.asList(st1,st2));
+		
+		em.persist(st1);
+		
+		em.persist(st2);
 			
-		
-		Employee emp=(Employee) query.getSingleResult();
-		
-		System.out.println(emp.getName());
-		
+			
 		transaction.commit();
+		em.close();
+		emf.close();
 		
-		
-
-	}
+		}
 
 }
